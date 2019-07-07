@@ -7,8 +7,13 @@ import {connect} from 'react-redux';
 //assets
 import logo from './logo.svg';
 import './App.css';
-import {actionGetPersons, actionPostPerson} from './redux/actions/allActions';
-import store from './redux/store';
+import {
+  actionGetPersons, 
+  actionPostPerson,
+  actionGetPetsOfPerson,
+  actionPostPet
+} from './redux/actions/allActions';
+
 
 
 
@@ -17,6 +22,11 @@ class App extends Component{
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount(){
+    let person = {}
+    this.props.onPostPerson(person);
   }
 
   static propTypes = {
@@ -40,16 +50,25 @@ class App extends Component{
   const mapDispachToProps = (dispach) => {
   return {
       onGetPersons: () => {
-      dispach(actionGetPersons())
+        dispach(actionGetPersons());
     },
       onPostPerson: (person) => {
-      dispach(actionPostPerson(person))
-    }
+        dispach(actionPostPerson(person));
+    },
+      onPostPet: (pet) => {
+        dispach(actionPostPet(pet));
+    },
+      onGetPetsOfPerson: (person) => {
+        dispach(actionGetPetsOfPerson(person));
+      }
   }
 }
 
   const mapStateToProps = (store, ownProps) => {
-    return {persons: store.reducerPerson.persons}// me quede aca.
+    return {
+      persons: store.reducerPerson.persons,
+      petsOfPerson: store.reducerPet.petsOfPerson,
+      }
   }
 
 
